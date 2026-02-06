@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: smartparts-backend
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/smartparts_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+security:
+  jwt:
+    # sinh chuỗi base64 256-bit để dùng thực tế, tạm hard-code cho dev
+    secret: dGhpc19pc19hX3NhbXBsZV9qd3Rfc2VjcmV0X3ZlcnlfbG9uZ19hbmRfbm90X2Zvcl9wcm9kdWN0aW9u
+    expiration-ms: 86400000
+
+
