@@ -1,19 +1,57 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Search, RotateCcw } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronDown, ChevronUp, Search, RotateCcw, DollarSign } from 'lucide-react';
 
-const Sidebar: React.FC = () => {
+export interface FilterState {
+    categories: string[];
+    brands: string[];
+    priceRange: { min: number; max: number } | null;
+}
+
+interface SidebarProps {
+    onFilterChange?: (filters: FilterState) => void;
+    availableCategories?: string[];
+    availableBrands?: string[];
+}
+
+const Sidebar: React.FC<SidebarProps> = ({
+    onFilterChange,
+    availableCategories,
+    availableBrands
+}) => {
     const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({
         category: true,
         brand: true,
+        price: true,
     });
 
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+    const [priceRange, setPriceRange] = useState<{ min: number; max: number } | null>(null);
     const [categorySearch, setCategorySearch] = useState('');
     const [brandSearch, setBrandSearch] = useState('');
 
-    const categories = ['Màn hình', 'Pin', 'Camera', 'Cảm ứng', 'Tai nghe', 'Sạc', 'Cáp', 'Ốp lưng'];
-    const brands = ['Apple', 'Samsung', 'Xiaomi', 'Oppo', 'Vivo', 'Realme', 'Huawei', 'Nokia'];
+    // Default categories and brands if not provided
+    const categories = availableCategories || ['Màn hình', 'Pin', 'Camera', 'Cảm ứng', 'Tai nghe', 'Sạc', 'Cáp', 'Ốp lưng'];
+    const brands = availableBrands || ['Apple', 'Samsung', 'Xiaomi', 'Oppo', 'Vivo', 'Realme', 'Huawei', 'Nokia'];
+
+    const priceRanges = [
+        { label: 'Dưới 500k', min: 0, max: 500000 },
+        { label: '500k - 1 triệu', min: 500000, max: 1000000 },
+        { label: '1 - 3 triệu', min: 1000000, max: 3000000 },
+        { label: '3 - 5 triệu', min: 3000000, max: 5000000 },
+        { label: 'Trên 5 triệu', min: 5000000, max: 999999999 },
+    ];
+
+    // Notify parent when filters change
+    useEffect(() => {
+        if (onFilterChange) {
+            onFilterChange({
+                categories: selectedCategories,
+                brands: selectedBrands,
+                priceRange: priceRange,
+            });
+        }
+    }, [selectedCategories, selectedBrands, priceRange, onFilterChange]);
 
     const toggleSection = (section: string) => {
         setExpandedSections(prev => ({
@@ -41,8 +79,15 @@ const Sidebar: React.FC = () => {
     const handleReset = () => {
         setSelectedCategories([]);
         setSelectedBrands([]);
+        setPriceRange(null);
         setCategorySearch('');
         setBrandSearch('');
+    };
+
+    const handlePriceRangeSelect = (range: { min: number; max: number } | null) => {
+        setPriceRange(prev =>
+            prev?.min === range?.min && prev?.max === range?.max ? null : range
+        );
     };
 
     const filteredCategories = categories.filter(cat =>
@@ -112,6 +157,8 @@ const Sidebar: React.FC = () => {
                     )}
                 </div>
 
+
+
                 {/* THƯƠNG HIỆU Section */}
                 <div className="bg-white rounded-2xl shadow-lg border-2 border-gray-100 overflow-hidden hover:shadow-2xl transition-shadow duration-300">
                     <button
@@ -177,7 +224,7 @@ const Sidebar: React.FC = () => {
                 </div>
 
                 {/* Active Filters Display */}
-                {(selectedCategories.length > 0 || selectedBrands.length > 0) && (
+                {(selectedCategories.length > 0 || selectedBrands.length > 0 || priceRange) && (
                     <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-5 shadow-lg">
                         <h4 className="text-sm font-black text-blue-900 mb-3 uppercase tracking-wide flex items-center gap-2">
                             <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
@@ -199,6 +246,22 @@ const Sidebar: React.FC = () => {
                                                 </button>
                                             </span>
                                         ))}
+                                    </div>
+                                </div>
+                            )}
+                            {priceRange && (
+                                <div>
+                                    <p className="text-xs font-bold text-gray-600 mb-2 uppercase tracking-wide">Giá:</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold rounded-full shadow-md hover:shadow-lg transition-shadow">
+                                            {priceRanges.find(r => r.min === priceRange.min && r.max === priceRange.max)?.label}
+                                            <button
+                                                onClick={() => setPriceRange(null)}
+                                                className="hover:bg-white/20 rounded-full p-0.5 transition-colors"
+                                            >
+                                                ×
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                             )}

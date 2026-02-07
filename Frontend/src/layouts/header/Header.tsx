@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, Phone, Users, Gift, ShoppingCart, Smartphone, Tablet, Settings, Wrench, Tag, Headphones, Newspaper, Menu, X } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import LogoImage from '../../assets/Logo.png';
 
 const Header: React.FC = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate();
+
+    const handleSearch = (e?: React.FormEvent) => {
+        e?.preventDefault();
+        if (searchTerm.trim()) {
+            navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+            // Optional: clear search after navigation
+            // setSearchTerm('');
+        }
+    };
 
     return (
         <header className="w-full font-sans sticky top-0 z-50">
@@ -15,7 +27,7 @@ const Header: React.FC = () => {
 
                         {/* Logo Section - Image Logo with Effects */}
                         <div className="flex-shrink-0">
-                            <div className="cursor-pointer group relative">
+                            <Link to="/" className="cursor-pointer group relative block">
                                 {/* Glow background effect */}
                                 <div className="absolute -inset-2 bg-gradient-to-r from-orange-400 via-yellow-400 to-orange-400 rounded-2xl opacity-30 blur-lg group-hover:opacity-60 group-hover:blur-xl transition-all duration-500 animate-pulse"></div>
 
@@ -34,20 +46,25 @@ const Header: React.FC = () => {
                                         className="h-12 w-auto object-contain relative z-10 transition-all duration-500 group-hover:scale-105 group-hover:brightness-110 drop-shadow-2xl"
                                     />
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                         {/* Search Bar - Orange Theme */}
                         <div className="flex-1 max-w-3xl">
-                            <div className="relative group">
+                            <form onSubmit={handleSearch} className="relative group">
                                 <input
                                     type="text"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
                                     placeholder="Tìm kiếm sản phẩm, linh kiện, phụ kiện..."
                                     className="w-full py-3.5 pl-6 pr-16 rounded-full bg-white shadow-lg border-2 border-white focus:border-orange-300 focus:outline-none focus:ring-4 focus:ring-orange-200/50 transition-all duration-300 text-base placeholder:text-gray-400 font-medium hover:shadow-xl"
                                 />
-                                <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 rounded-full p-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
+                                <button
+                                    type="submit"
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 rounded-full p-3 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
+                                >
                                     <Search className="text-white w-5 h-5" />
                                 </button>
-                            </div>
+                            </form>
                         </div>
 
                         {/* Right Side Actions - Orange Theme */}
@@ -62,7 +79,7 @@ const Header: React.FC = () => {
                                     <div>
                                         <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Hotline</p>
                                         <p className="text-lg font-black bg-gradient-to-r from-orange-600 to-orange-800 bg-clip-text text-transparent leading-none">
-                                            1900 2667
+                                            0902962497
                                         </p>
                                     </div>
                                 </div>
@@ -84,13 +101,13 @@ const Header: React.FC = () => {
                 <div className="container mx-auto">
                     {/* Desktop Navigation */}
                     <nav className="hidden lg:flex items-center justify-center gap-1 py-3 px-4">
-                        <NavItem icon={Smartphone} text="Linh kiện điện thoại" color="orange" />
-                        <NavItem icon={Tablet} text="Linh kiện iPad" color="orange" />
-                        <NavItem icon={Settings} text="Vất tư ép kính" color="orange" />
-                        <NavItem icon={Wrench} text="Dụng cụ thiết bị" color="orange" />
-                        <NavItem icon={Tag} text="Hàng bán RẺ" color="red" isHot />
-                        <NavItem icon={Headphones} text="Phụ kiện" color="orange" />
-                        <NavItem icon={Newspaper} text="Tin tức" color="gray" />
+                        <NavItem icon={Smartphone} text="Linh kiện điện thoại" color="orange" href="/phone-parts" />
+                        <NavItem icon={Tablet} text="Linh kiện iPad" color="orange" href="/ipad-parts" />
+                        <NavItem icon={Settings} text="Vật tư ép kính" color="orange" href="/glass-supplies" />
+                        <NavItem icon={Wrench} text="Dụng cụ thiết bị" color="orange" href="/tools-equipment" />
+                        <NavItem icon={Tag} text="Hàng bán RẺ" color="red" isHot href="/sale" />
+                        <NavItem icon={Headphones} text="Phụ kiện" color="orange" href="/accessories" />
+                        <NavItem icon={Newspaper} text="Tin tức" color="gray" href="/news" />
                     </nav>
 
                     {/* Mobile Menu Toggle */}
@@ -112,12 +129,12 @@ const Header: React.FC = () => {
                     {isMobileMenuOpen && (
                         <div className="lg:hidden bg-white border-t border-orange-200">
                             <div className="grid grid-cols-2 gap-2 p-4">
-                                <NavItem icon={Smartphone} text="Điện thoại" color="orange" mobile />
-                                <NavItem icon={Tablet} text="iPad" color="orange" mobile />
-                                <NavItem icon={Settings} text="Vật tư" color="orange" mobile />
-                                <NavItem icon={Wrench} text="Dụng cụ" color="orange" mobile />
-                                <NavItem icon={Tag} text="Sale" color="red" isHot mobile />
-                                <NavItem icon={Headphones} text="Phụ kiện" color="orange" mobile />
+                                <NavItem icon={Smartphone} text="Điện thoại" color="orange" mobile href="/phone-parts" />
+                                <NavItem icon={Tablet} text="iPad" color="orange" mobile href="/ipad-parts" />
+                                <NavItem icon={Settings} text="Vật tư" color="orange" mobile href="/glass-supplies" />
+                                <NavItem icon={Wrench} text="Dụng cụ" color="orange" mobile href="/tools-equipment" />
+                                <NavItem icon={Tag} text="Sale" color="red" isHot mobile href="/sale" />
+                                <NavItem icon={Headphones} text="Phụ kiện" color="orange" mobile href="/accessories" />
                             </div>
                         </div>
                     )}
@@ -169,9 +186,10 @@ interface NavItemProps {
     color: 'orange' | 'red' | 'gray';
     isHot?: boolean;
     mobile?: boolean;
+    href: string;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ icon: Icon, text, color, isHot, mobile }) => {
+const NavItem: React.FC<NavItemProps> = ({ icon: Icon, text, color, isHot, mobile, href }) => {
     const colorMap = {
         orange: 'from-orange-500 to-orange-600',
         red: 'from-red-500 to-pink-600',
@@ -191,7 +209,7 @@ const NavItem: React.FC<NavItemProps> = ({ icon: Icon, text, color, isHot, mobil
     };
 
     return (
-        <div className="relative group">
+        <Link to={href} className="relative group">
             <div className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-300 ${bgHoverMap[color]} ${mobile ? 'justify-start' : ''}`}>
                 <div className={`p-2 rounded-lg bg-gradient-to-br ${colorMap[color]} shadow-md group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
                     <Icon className="w-4 h-4 text-white" />
@@ -210,8 +228,8 @@ const NavItem: React.FC<NavItemProps> = ({ icon: Icon, text, color, isHot, mobil
 
             {/* Bottom Border Indicator - Orange Theme */}
             <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${colorMap[color]} scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full shadow-lg`}></div>
-        </div>
+        </Link>
     );
 };
 
-export default Header;
+export default React.memo(Header);

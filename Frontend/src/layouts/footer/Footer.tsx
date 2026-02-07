@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
                             </h3>
                             <div className="space-y-3">
                                 <p className="text-sm font-black text-gray-900 leading-relaxed">
-                                    CÔNG TY TNHH TMDV CHIẾM TÀI
+                                    CÔNG TY TNHH TMDV LINH KIỆN SÀI GÒN
                                 </p>
                                 <p className="text-xs text-gray-600 font-semibold uppercase tracking-wide mb-4">
                                     Gọi mua hàng
@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
                                         <Phone className="w-5 h-5 text-white" />
                                     </div>
                                     <a href="tel:19002667" className="text-3xl font-black bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent hover:from-orange-700 hover:to-red-700 transition-all duration-300">
-                                        1900 2667
+                                        0902962497
                                     </a>
                                 </div>
                                 <p className="text-xs text-gray-500 italic mb-5 pl-1">
@@ -76,7 +76,7 @@ const Footer: React.FC = () => {
                                     </p>
                                     <p className="text-xs text-gray-700 font-semibold flex items-center gap-2">
                                         <Phone className="w-3 h-3 text-orange-600" />
-                                        0908.810.881
+                                        0902962497
                                     </p>
                                     <p className="text-xs text-gray-700 font-semibold flex items-center gap-2">
                                         <Mail className="w-3 h-3 text-orange-600" />
@@ -150,14 +150,8 @@ const Footer: React.FC = () => {
                             </h3>
                             <div className="space-y-4">
                                 <StoreLocation
-                                    name="CN Q5"
-                                    address="147 - 149 Nguyễn Thị Phương, P8, Q5, TPHCM"
-                                />
-                                <StoreLocation
-                                    name="CN Q6"
-                                    address="128 - 130 Hậu Giang, P6, Q6, TPHCM"
-                                    workingHours="T2 - T7: 08h00 ~ 21h00"
-                                    sundayHours="CN: 08h00 ~ 18h00"
+                                    name="CN Q12"
+                                    address="73/312 Hiệp Thành 12, P.Hiệp Thành, Q12, TPHCM"
                                 />
                             </div>
                         </div>
@@ -170,10 +164,10 @@ const Footer: React.FC = () => {
                 <div className="container mx-auto px-4">
                     <p className="text-xs text-gray-300 text-center leading-relaxed">
                         Copyright © 2006 - {new Date().getFullYear()}{' '}
-                        <span className="font-black text-orange-400">CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ CHIẾM TÀI</span>
+                        <span className="font-black text-orange-400">CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ Linh Kiện Sài Gòn </span>
                         <br className="sm:hidden" />
                         <span className="text-gray-400">
-                            {' '}Bảng ký kinh doanh số 0305099036. Giấy Số Kế hoạch và Đầu tư thành phố TPHCM cấp ngày 22/01/2009
+                            {' '}Bảng ký kinh doanh số 0902962497.
                         </span>
                     </p>
                 </div>
@@ -237,4 +231,4 @@ const StoreLocation: React.FC<StoreLocationProps> = ({ name, address, workingHou
     </div>
 );
 
-export default Footer;
+export default React.memo(Footer);
