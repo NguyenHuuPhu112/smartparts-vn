@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine  # Dùng bản alpine cho nhẹ
+    container_name: postgres_container
+    restart: always
+    environment:
+      POSTGRES_USER: postgres        # Tên đăng nhập
+      POSTGRES_PASSWORD: 123456 # Mật khẩu
+      POSTGRES_DB: mydatabase      # Tên database tạo mặc định
+    ports:
+      - "5432:5432" # Host_Port : Container_Port
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data # Lưu dữ liệu ra thư mục hiện tại
