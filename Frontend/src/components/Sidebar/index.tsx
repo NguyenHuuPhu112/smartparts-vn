@@ -63,16 +63,11 @@ const Sidebar: React.FC<SidebarProps> = ({
         );
     };
 
-    // Reset all filters
-    const handleReset = () => {
-        setSelectedCategories([]);
-        setSelectedBrands([]);
-        setPriceRange(null);
-    };
+
 
     return (
-        <aside className="w-80 bg-gradient-to-br from-gray-50 to-gray-100 border-r-2 border-gray-200 h-screen sticky top-0 overflow-y-auto shadow-xl">
-            <div className="p-5 space-y-5">
+        <aside className="w-64 bg-gradient-to-br from-gray-50 to-gray-100 border-r-2 border-gray-200 h-screen sticky top-0 overflow-y-auto shadow-xl">
+            <div className="p-4 space-y-4">
                 {/* Category Filter Section */}
                 <FilterSection
                     title="Loại sản phẩm"
@@ -98,7 +93,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                         brands={brands}
                         selectedBrands={selectedBrands}
                         onToggle={handleBrandToggle}
-                        onReset={handleReset}
+
                     />
                 </FilterSection>
 
