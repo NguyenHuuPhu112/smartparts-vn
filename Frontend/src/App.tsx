@@ -11,21 +11,27 @@ import SalePage from './pages/category/SalePage';
 import AccessoriesPage from './pages/category/AccessoriesPage';
 import NewsPage from './pages/NewsPage';
 import SearchPage from './pages/SearchPage';
+import StaticPage from './pages/policy/StaticPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
 
 // Admin Pages
 import AdminLayout from './layouts/admin/AdminLayout';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProducts from './pages/admin/AdminProducts';
-import AdminOrders from './pages/admin/AdminOrders';
+import AdminOrders from './pages/admin/AdminOrders/index';
 import AdminCategories from './pages/admin/AdminCategories';
 import AdminReports from './pages/admin/AdminReports';
+import AdminCustomers from './pages/admin/AdminCustomers';
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/phone-parts" element={<PhonePartsPage />} />
         <Route path="/ipad-parts" element={<IPadPartsPage />} />
         <Route path="/glass-supplies" element={<GlassSuppliesPage />} />
@@ -34,6 +40,9 @@ const App: React.FC = () => {
         <Route path="/accessories" element={<AccessoriesPage />} />
         <Route path="/news" element={<NewsPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/policy/:slug" element={<StaticPage />} />
 
         {/* --- Admin Routes --- */}
         <Route path="/admin/login" element={<AdminLogin />} />
@@ -43,6 +52,7 @@ const App: React.FC = () => {
           <Route path="products" element={<AdminProducts />} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="categories" element={<AdminCategories />} />
+          <Route path="customers" element={<AdminCustomers />} />
           <Route path="reports" element={<AdminReports />} />
         </Route>
       </Routes>

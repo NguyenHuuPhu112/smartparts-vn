@@ -5,7 +5,8 @@ import {
     ProductFilters,
     ProductTable,
     ProductFormModal,
-    ProductViewModal
+    ProductViewModal,
+    ImportExcelModal
 } from './components';
 
 const AdminProducts: React.FC = () => {
@@ -31,6 +32,7 @@ const AdminProducts: React.FC = () => {
         showAddModal,
         showEditModal,
         showViewModal,
+        showImportModal,
 
         // Handlers
         handleAdd,
@@ -43,9 +45,11 @@ const AdminProducts: React.FC = () => {
         handleSearchChange,
         handleCategoryChange,
         handleStockFilterChange,
+        handleImportProducts,
         setShowAddModal,
         setShowEditModal,
-        setShowViewModal
+        setShowViewModal,
+        setShowImportModal
     } = useProducts();
 
     return (
@@ -54,6 +58,7 @@ const AdminProducts: React.FC = () => {
             <ProductHeader
                 totalProducts={products.length}
                 onAdd={handleAdd}
+                onImport={() => setShowImportModal(true)}
             />
 
             {/* Filters & Search */}
@@ -104,6 +109,13 @@ const AdminProducts: React.FC = () => {
                     product={selectedProduct}
                     onClose={() => setShowViewModal(false)}
                     onEdit={handleEdit}
+                />
+            )}
+
+            {showImportModal && (
+                <ImportExcelModal
+                    onClose={() => setShowImportModal(false)}
+                    onImport={handleImportProducts}
                 />
             )}
         </div>

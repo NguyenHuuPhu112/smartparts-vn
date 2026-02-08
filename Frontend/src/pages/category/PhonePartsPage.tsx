@@ -1,10 +1,37 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import CategoryLayout from '../../layouts/CategoryLayout';
 import CategoryPageTemplate from './CategoryPageTemplate';
-import { phonePartsProducts } from '../../data/mockData';
+import { ProductService } from '../../services/productService';
+import type { Product } from '../admin/AdminProducts/types';
 import { applyProductFilters } from '../../utils/applyProductFilters';
 
 const PhonePartsPage: React.FC = () => {
+    const [products, setProducts] = useState<Product[]>([]);
+
+    useEffect(() => {
+        // Load products
+        const loadData = async () => {
+            const allProducts = await ProductService.getAll();
+            const categoryProducts = allProducts.filter(p =>
+                p.category === 'Linh kiện điện thoại' ||
+                p.categoryId === 'phone-parts'
+            );
+            setProducts(categoryProducts);
+        };
+        loadData();
+
+        // Listen for updates
+        const handleUpdate = async () => {
+            const all = await ProductService.getAll();
+            const filtered = all.filter(p =>
+                p.category === 'Linh kiện điện thoại' ||
+                p.categoryId === 'phone-parts'
+            );
+            setProducts(filtered);
+        };
+        window.addEventListener('product-storage-update', handleUpdate);
+        return () => window.removeEventListener('product-storage-update', handleUpdate);
+    }, []);
     // Define available brands
     const availableBrands = useMemo(() => {
         const allBrands = [
@@ -26,7 +53,7 @@ const PhonePartsPage: React.FC = () => {
             availableCategories={availableCategories}
         >
             {(filters) => {
-                const filteredProducts = applyProductFilters(phonePartsProducts, filters);
+                const filteredProducts = applyProductFilters(products, filters);
 
                 return (
                     <CategoryPageTemplate

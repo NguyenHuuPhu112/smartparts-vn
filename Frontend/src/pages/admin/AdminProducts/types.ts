@@ -15,6 +15,9 @@ export interface Product {
     stock?: number;
     image: string;
     description?: string;
+    isFeatured?: boolean;
+    isHot?: boolean;
+    categoryId?: string;
 }
 
 export interface ProductFormData {

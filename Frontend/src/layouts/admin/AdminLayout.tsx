@@ -16,8 +16,8 @@ const AdminLayout: React.FC = () => {
     return (
         <div className="flex bg-slate-100 min-h-screen font-sans antialiased text-slate-800">
             {/* Sidebar (Desktop: Fixed, Mobile: Toggle) */}
-            <div className={`${sidebarOpen ? 'w-64' : 'w-0'} transition-all duration-300 bg-slate-900 border-r border-slate-800 overflow-hidden`}>
-                <div className="h-full w-64">
+            <div className={`${sidebarOpen ? 'w-56' : 'w-0'} transition-all duration-300 bg-slate-900 border-r border-slate-800 overflow-hidden sticky top-0 h-screen z-50`}>
+                <div className="h-full w-56">
                     <AdminSidebar />
                 </div>
             </div>

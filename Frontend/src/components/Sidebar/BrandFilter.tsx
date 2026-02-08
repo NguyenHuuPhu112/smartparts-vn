@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { Search, RotateCcw } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 interface BrandFilterProps {
     brands: string[];
     selectedBrands: string[];
     onToggle: (brand: string) => void;
-    onReset: () => void;
 }
 
 const BrandFilter: React.FC<BrandFilterProps> = ({
     brands,
     selectedBrands,
-    onToggle,
-    onReset
+    onToggle
 }) => {
     const [search, setSearch] = useState('');
 
@@ -55,13 +53,7 @@ const BrandFilter: React.FC<BrandFilterProps> = ({
             </div>
 
             {/* Reset Button */}
-            <button
-                onClick={onReset}
-                className="w-full mt-4 py-3 px-4 bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-800 hover:to-black text-white font-black text-sm uppercase tracking-wide hover:shadow-xl transition-all duration-300 rounded-xl flex items-center justify-center gap-2 group"
-            >
-                <RotateCcw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
-                Thiết lập lại
-            </button>
+
         </>
     );
 };

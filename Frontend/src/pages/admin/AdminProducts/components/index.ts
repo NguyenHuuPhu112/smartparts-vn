@@ -4,3 +4,4 @@ export { default as ProductFilters } from './ProductFilters';
 export { default as ProductTable } from './ProductTable';
 export { default as ProductFormModal } from './ProductFormModal';
 export { default as ProductViewModal } from './ProductViewModal';
+export { default as ImportExcelModal } from './ImportExcelModal';

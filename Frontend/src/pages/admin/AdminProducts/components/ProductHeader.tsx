@@ -1,12 +1,13 @@
 import React from 'react';
-import { Plus, Download } from 'lucide-react';
+import { Plus, Download, Upload } from 'lucide-react';
 
 interface ProductHeaderProps {
     totalProducts: number;
     onAdd: () => void;
+    onImport?: () => void;
 }
 
-const ProductHeader: React.FC<ProductHeaderProps> = ({ totalProducts, onAdd }) => {
+const ProductHeader: React.FC<ProductHeaderProps> = ({ totalProducts, onAdd, onImport }) => {
     return (
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
@@ -20,6 +21,15 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({ totalProducts, onAdd }) =
                     <Download className="w-4 h-4" />
                     <span className="hidden sm:inline">Xuất Excel</span>
                 </button>
+                {onImport && (
+                    <button
+                        onClick={onImport}
+                        className="flex items-center gap-2 px-4 py-2 border border-green-500 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors font-medium"
+                    >
+                        <Upload className="w-4 h-4" />
+                        <span className="hidden sm:inline">Import Excel</span>
+                    </button>
+                )}
                 <button
                     onClick={onAdd}
                     className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors shadow-lg shadow-orange-200 font-medium"

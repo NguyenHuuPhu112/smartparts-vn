@@ -1,31 +1,11 @@
 import { useState, useMemo, useCallback } from 'react';
 import type { Product, ProductFormData, StockFilter } from '../types';
 import { CATEGORIES, BRANDS, ITEMS_PER_PAGE } from '../types';
-import {
-    phonePartsProducts,
-    ipadPartsProducts,
-    glassSuppliesProducts,
-    toolsEquipmentProducts,
-    accessoriesProducts
-} from '../../../../data/mockData';
+import { ProductService } from '../../../../services/productService';
 
-// Initialize products from mock data
-const initializeProducts = (): Product[] => {
-    const allProducts = [
-        ...phonePartsProducts,
-        ...ipadPartsProducts,
-        ...glassSuppliesProducts,
-        ...toolsEquipmentProducts,
-        ...accessoriesProducts
-    ];
-
-    return allProducts.map((p, i) => ({
-        ...p,
-        sku: p.sku || `SKU-${String(i + 1).padStart(5, '0')}`,
-        stock: Math.floor(p.sold * 1.5) + 10,
-        description: p.description || `Mô tả sản phẩm ${p.name}`
-    }));
-};
+// Initialize products from Local Storage via Service
+// ProductService is now async, so we'll load in useEffect
+import { useEffect } from 'react';
 
 const getEmptyFormData = (productCount: number): ProductFormData => ({
     name: '',
@@ -42,7 +22,15 @@ const getEmptyFormData = (productCount: number): ProductFormData => ({
 
 export const useProducts = () => {
     // Data state
-    const [products, setProducts] = useState<Product[]>(initializeProducts);
+    const [products, setProducts] = useState<Product[]>([]);
+
+    useEffect(() => {
+        const loadProducts = async () => {
+            const data = await ProductService.getAll();
+            setProducts(data);
+        };
+        loadProducts();
+    }, []);
 
     // Filter state
     const [searchTerm, setSearchTerm] = useState('');
@@ -54,6 +42,7 @@ export const useProducts = () => {
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showViewModal, setShowViewModal] = useState(false);
+    const [showImportModal, setShowImportModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
     // Form state
@@ -111,13 +100,14 @@ export const useProducts = () => {
         setShowViewModal(true);
     }, []);
 
-    const handleDelete = useCallback((id: number | string) => {
+    const handleDelete = useCallback(async (id: number | string) => {
         if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
-            setProducts(prev => prev.filter(p => p.id !== id));
+            const newProducts = await ProductService.delete(id);
+            setProducts(newProducts);
         }
     }, []);
 
-    const handleSaveAdd = useCallback(() => {
+    const handleSaveAdd = useCallback(async () => {
         const newProduct: Product = {
             id: Date.now(),
             name: formData.name,
@@ -136,31 +126,31 @@ export const useProducts = () => {
             image: formData.image || 'https://via.placeholder.com/100',
             description: formData.description
         };
-        setProducts(prev => [newProduct, ...prev]);
+        const updatedProducts = await ProductService.add(newProduct);
+        setProducts(updatedProducts);
         setShowAddModal(false);
         alert('Thêm sản phẩm thành công!');
     }, [formData]);
 
-    const handleSaveEdit = useCallback(() => {
+    const handleSaveEdit = useCallback(async () => {
         if (!selectedProduct) return;
-        setProducts(prev => prev.map(p => {
-            if (p.id === selectedProduct.id) {
-                return {
-                    ...p,
-                    name: formData.name || p.name,
-                    sku: formData.sku,
-                    category: formData.category || p.category,
-                    brand: formData.brand || p.brand,
-                    price: formData.price || p.price,
-                    originalPrice: formData.originalPrice,
-                    stock: formData.stock,
-                    inStock: formData.stock > 0,
-                    image: formData.image || p.image,
-                    description: formData.description
-                };
-            }
-            return p;
-        }));
+
+        const updatedProduct: Product = {
+            ...selectedProduct,
+            name: formData.name || selectedProduct.name,
+            sku: formData.sku || selectedProduct.sku,
+            category: formData.category || selectedProduct.category,
+            brand: formData.brand || selectedProduct.brand,
+            price: formData.price || selectedProduct.price,
+            originalPrice: formData.originalPrice,
+            stock: formData.stock,
+            inStock: formData.stock > 0,
+            image: formData.image || selectedProduct.image,
+            description: formData.description
+        };
+
+        const newProducts = await ProductService.update(updatedProduct);
+        setProducts(newProducts);
         setShowEditModal(false);
         alert('Cập nhật sản phẩm thành công!');
     }, [formData, selectedProduct]);
@@ -191,6 +181,34 @@ export const useProducts = () => {
         setCurrentPage(1);
     }, []);
 
+    // Import from Excel
+    // Import from Excel
+    const handleImportProducts = useCallback(async (importedProducts: Partial<Product>[]) => {
+        const newProductsToAdd: Product[] = importedProducts.map((p, index) => ({
+            id: Date.now() + index,
+            name: p.name || 'Sản phẩm không tên',
+            sku: p.sku || `IMP-${String(Date.now() + index).slice(-6)}`,
+            category: p.category || CATEGORIES[0],
+            brand: p.brand || 'Generic',
+            price: p.price || 0,
+            originalPrice: p.originalPrice,
+            discount: p.originalPrice && p.price
+                ? Math.round((1 - p.price / p.originalPrice) * 100)
+                : 0,
+            sold: p.sold || 0,
+            rating: p.rating || '5',
+            inStock: (p.stock ?? 0) > 0,
+            stock: p.stock || 0,
+            image: p.image || 'https://via.placeholder.com/100',
+            description: p.description || ''
+        }));
+
+        const updatedProducts = await ProductService.addBatch(newProductsToAdd);
+        setProducts(updatedProducts);
+        setShowImportModal(false);
+        alert(`Import thành công ${newProductsToAdd.length} sản phẩm!`);
+    }, []);
+
     return {
         // Data
         products,
@@ -213,6 +231,7 @@ export const useProducts = () => {
         showAddModal,
         showEditModal,
         showViewModal,
+        showImportModal,
 
         // Handlers
         handleAdd,
@@ -226,8 +245,10 @@ export const useProducts = () => {
         handleSearchChange,
         handleCategoryChange,
         handleStockFilterChange,
+        handleImportProducts,
         setShowAddModal,
         setShowEditModal,
-        setShowViewModal
+        setShowViewModal,
+        setShowImportModal
     };
 };
