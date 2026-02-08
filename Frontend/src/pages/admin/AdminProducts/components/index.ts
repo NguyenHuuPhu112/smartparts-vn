@@ -1,0 +1,6 @@
+// Export all components
+export { default as ProductHeader } from './ProductHeader';
+export { default as ProductFilters } from './ProductFilters';
+export { default as ProductTable } from './ProductTable';
+export { default as ProductFormModal } from './ProductFormModal';
+export { default as ProductViewModal } from './ProductViewModal';

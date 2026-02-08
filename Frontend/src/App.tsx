@@ -12,6 +12,15 @@ import AccessoriesPage from './pages/category/AccessoriesPage';
 import NewsPage from './pages/NewsPage';
 import SearchPage from './pages/SearchPage';
 
+// Admin Pages
+import AdminLayout from './layouts/admin/AdminLayout';
+import AdminLogin from './pages/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminProducts from './pages/admin/AdminProducts';
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminCategories from './pages/admin/AdminCategories';
+import AdminReports from './pages/admin/AdminReports';
+
 const App: React.FC = () => {
   return (
     <BrowserRouter>
@@ -25,6 +34,17 @@ const App: React.FC = () => {
         <Route path="/accessories" element={<AccessoriesPage />} />
         <Route path="/news" element={<NewsPage />} />
         <Route path="/search" element={<SearchPage />} />
+
+        {/* --- Admin Routes --- */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="categories" element={<AdminCategories />} />
+          <Route path="reports" element={<AdminReports />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

@@ -88,36 +88,36 @@ const CategoryPageTemplate: React.FC<CategoryPageTemplateProps> = ({
 
     return (
         <div className="space-y-6">
-            {/* Category Header */}
-            <div className="bg-gradient-to-r from-brand-600 to-brand-700 rounded-2xl p-10 text-white shadow-brand">
+            {/* Category Header - Compact */}
+            <div className="bg-gradient-to-r from-brand-600 to-brand-700 rounded-xl p-5 text-white shadow-brand">
                 <div className="max-w-4xl">
-                    <h1 className="text-4xl font-black mb-3">{title}</h1>
+                    <h1 className="text-xl font-bold mb-1">{title}</h1>
                     {description && (
-                        <p className="text-brand-100 text-lg leading-relaxed">{description}</p>
+                        <p className="text-brand-100 text-sm leading-relaxed opacity-90">{description}</p>
                     )}
-                    <div className="mt-6 flex items-center gap-6 text-sm">
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-accent-400 rounded-full animate-pulse"></div>
-                            <span className="font-semibold">{rawProducts.length} sản phẩm</span>
+                    <div className="mt-3 flex items-center gap-4 text-xs">
+                        <div className="flex items-center gap-1.5">
+                            <div className="w-1.5 h-1.5 bg-accent-400 rounded-full animate-pulse"></div>
+                            <span className="font-medium">{rawProducts.length} sản phẩm</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                            <span className="font-semibold">Hàng chính hãng 100%</span>
+                        <div className="flex items-center gap-1.5">
+                            <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+                            <span className="font-medium">Hàng chính hãng 100%</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                            <span className="font-semibold">Bảo hành 12 tháng</span>
+                        <div className="flex items-center gap-1.5">
+                            <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
+                            <span className="font-medium">Bảo hành 12 tháng</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Toolbar */}
-            <div className="bg-white rounded-xl p-5 border border-border-light shadow-subtle sticky top-0 z-10">
-                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                    <div className="flex items-center gap-4 flex-wrap">
+            {/* Toolbar - Compact */}
+            <div className="bg-white rounded-lg p-3 border border-border-light shadow-subtle sticky top-0 z-10">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 flex-wrap">
                         {/* View Mode Toggle */}
-                        <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+                        <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-0.5">
                             <button
                                 onClick={() => setViewMode('grid')}
                                 className={`p-2.5 rounded-lg transition-all duration-200 ${viewMode === 'grid'

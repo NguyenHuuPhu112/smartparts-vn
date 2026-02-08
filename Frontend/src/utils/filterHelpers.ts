@@ -75,7 +75,7 @@ export const extractUniqueBrands = (products: Product[]): string[] => {
  * Get unique categories from a list of products
  * (You might want to customize this based on your data structure)
  */
-export const extractUniqueCategories = (products: Product[]): string[] => {
+export const extractUniqueCategories = (_products: Product[]): string[] => {
     // For now, return common categories
     // In the future, you might extract this from product metadata
     return ['Màn hình', 'Pin', 'Camera', 'Cảm ứng', 'Tai nghe', 'Sạc', 'Cáp', 'Ốp lưng'];
