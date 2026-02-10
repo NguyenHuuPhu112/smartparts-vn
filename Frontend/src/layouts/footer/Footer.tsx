@@ -51,7 +51,7 @@ const Footer: React.FC = () => {
         <footer ref={footerRef} className="w-full bg-gray-50 border-t-2 border-orange-500 mt-auto shadow-2xl">
             {/* Top Banner - Orange Premium Compact */}
             <div className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 py-3 shadow-md relative z-10">
-                <div className="container mx-auto px-4">
+                <div className="container mx-auto px-4 max-w-6xl">
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 text-white">
                         <FeatureBadge icon={Shield} title="BẢO HÀNH 12 THÁNG" />
                         <FeatureBadge icon={Headphones} title="HỖ TRỢ KỸ THUẬT" />
@@ -65,7 +65,7 @@ const Footer: React.FC = () => {
 
             {/* Main Footer Content - Premium Grid */}
             <div className="bg-white py-6 border-t border-gray-200">
-                <div className="container mx-auto px-4">
+                <div className="container mx-auto px-4 max-w-6xl">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
                         {/* Column 1: Company Info */}
@@ -184,7 +184,7 @@ const Footer: React.FC = () => {
 
             {/* Bottom Copyright - Elegant */}
             <div className="bg-gradient-to-r from-gray-800 via-gray-900 to-gray-800 py-5 border-t-2 border-gray-700 shadow-inner">
-                <div className="container mx-auto px-4">
+                <div className="container mx-auto px-4 max-w-6xl">
                     <p className="text-xs text-gray-300 text-center leading-relaxed">
                         Copyright © 2006 - {new Date().getFullYear()}{' '}
                         <span className="font-black text-orange-400">CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ Linh Kiện Sài Gòn </span>

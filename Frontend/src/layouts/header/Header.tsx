@@ -26,7 +26,7 @@ const Header: React.FC = () => {
         <header className="w-full font-sans z-50">
             {/* --- MAIN HEADER BAR - Orange Theme --- */}
             <div className="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 shadow-xl">
-                <div className="container mx-auto px-4 py-1.5">
+                <div className="container mx-auto px-4 max-w-6xl h-20">
                     <div className="flex items-center justify-between gap-6">
 
                         {/* Logo Section - Image Logo with Effects */}
@@ -104,7 +104,7 @@ const Header: React.FC = () => {
 
             {/* --- NAVIGATION BAR - Orange Accents --- */}
             <div className="bg-white shadow-md border-b-2 border-orange-200">
-                <div className="container mx-auto">
+                <div className="container mx-auto max-w-6xl">
                     {/* Desktop Navigation */}
                     <nav className="hidden lg:flex items-center justify-center gap-1 py-1.5 px-4">
                         <NavItem icon={Smartphone} text="Linh kiện điện thoại" color="orange" href="/phone-parts" />

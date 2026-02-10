@@ -11,7 +11,7 @@ const CartPage: React.FC = () => {
     if (cartItems.length === 0) {
         return (
             <MainLayout>
-                <div className="container mx-auto px-4 py-16 text-center">
+                <div className="container mx-auto px-4 max-w-6xl py-16 text-center">
                     <div className="flex justify-center mb-6">
                         <ShoppingBag className="w-24 h-24 text-gray-200" />
                     </div>

@@ -48,7 +48,7 @@ const ProductDetailPage: React.FC = () => {
     if (!product) {
         return (
             <MainLayout>
-                <div className="container mx-auto px-4 py-16 text-center">
+                <div className="container mx-auto px-4 max-w-6xl py-16 text-center">
                     <h2 className="text-2xl font-bold text-gray-800 mb-4">Sản phẩm không tồn tại</h2>
                     <Link to="/" className="text-orange-600 hover:underline">Quay lại trang chủ</Link>
                 </div>

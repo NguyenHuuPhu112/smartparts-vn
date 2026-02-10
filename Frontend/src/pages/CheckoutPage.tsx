@@ -22,7 +22,7 @@ const CheckoutPage: React.FC = () => {
         // For simplicity, showing a message and link back.
         return (
             <MainLayout>
-                <div className="container mx-auto px-4 py-16 text-center">
+                <div className="container mx-auto px-4 max-w-6xl py-16 text-center">
                     <h2 className="text-2xl font-bold text-gray-900 mb-4">Giỏ hàng trống</h2>
                     <Link to="/" className="text-orange-600 font-bold hover:underline">Quay lại mua sắm</Link>
                 </div>
