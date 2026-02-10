@@ -1,14 +1,14 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:
     name: smartparts-backend
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/smartparts_db
-    username: postgres
-    password: postgres
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -22,7 +22,7 @@ spring:
 
 security:
   jwt:
-    secret: dGhpc19pc19hX3NhbXBsZV9qd3Rfc2VjcmV0X3ZlcnlfbG9uZ19hbmRfbm90X2Zvcl9wcm9kdWN0aW9u
-    expiration-ms: 86400000
+    secret: ${JWT_SECRET}
+    expiration-ms: ${JWT_EXPIRATION_MS}
 
 

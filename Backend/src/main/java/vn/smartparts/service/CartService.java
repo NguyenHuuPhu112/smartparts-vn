@@ -7,7 +7,8 @@ import vn.smartparts.domain.cart.Cart;
 import vn.smartparts.domain.cart.CartItem;
 import vn.smartparts.domain.product.Product;
 import vn.smartparts.domain.user.User;
-import vn.smartparts.dto.CartDtos;
+import vn.smartparts.dto.cart.CartDto;
+import vn.smartparts.dto.cart.CartItemDto;
 import vn.smartparts.repository.CartRepository;
 import vn.smartparts.repository.ProductRepository;
 import vn.smartparts.repository.UserRepository;
@@ -31,11 +32,11 @@ public class CartService {
                 .orElseGet(() -> createEmptyCart(user));
     }
 
-    public CartDtos.CartDto getCartDtoForUser(Long userId) {
+    public CartDto getCartDtoForUser(Long userId) {
         return toDto(getCartForUser(userId));
     }
 
-    public CartDtos.CartDto addItem(Long userId, Long productId, int quantity) {
+    public CartDto addItem(Long userId, Long productId, int quantity) {
         if (quantity <= 0) {
             throw new IllegalArgumentException("Quantity must be > 0");
         }
@@ -67,7 +68,7 @@ public class CartService {
         return toDto(cartRepository.save(cart));
     }
 
-    public CartDtos.CartDto updateItem(Long userId, Long productId, int quantity) {
+    public CartDto updateItem(Long userId, Long productId, int quantity) {
         if (quantity < 0) {
             throw new IllegalArgumentException("Quantity must be >= 0");
         }
@@ -90,7 +91,7 @@ public class CartService {
         return toDto(cartRepository.save(cart));
     }
 
-    public CartDtos.CartDto clearCart(Long userId) {
+    public CartDto clearCart(Long userId) {
         Cart cart = getCartForUser(userId);
         cart.getItems().clear();
         cart.setTotalAmount(BigDecimal.ZERO);
@@ -112,18 +113,16 @@ public class CartService {
         cart.setTotalAmount(total);
     }
 
-    private CartDtos.CartDto toDto(Cart cart) {
+    private CartDto toDto(Cart cart) {
         var items = cart.getItems().stream()
-                .map(i -> new CartDtos.CartItemDto(
+                .map(i -> new CartItemDto(
                         i.getProduct().getId(),
                         i.getProduct().getName(),
                         i.getProduct().getMainImageUrl(),
                         i.getQuantity(),
                         i.getUnitPrice(),
-                        i.getLineTotal()
-                ))
+                        i.getLineTotal()))
                 .toList();
-        return new CartDtos.CartDto(cart.getId(), cart.getTotalAmount(), items);
+        return new CartDto(cart.getId(), cart.getTotalAmount(), items);
     }
 }
-

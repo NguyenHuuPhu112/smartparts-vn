@@ -11,7 +11,7 @@ import vn.smartparts.domain.product.Brand;
 import vn.smartparts.domain.product.Category;
 import vn.smartparts.domain.product.Product;
 import vn.smartparts.domain.product.ProductImage;
-import vn.smartparts.dto.ProductDto;
+import vn.smartparts.dto.product.ProductDto;
 import vn.smartparts.repository.BrandRepository;
 import vn.smartparts.repository.CategoryRepository;
 import vn.smartparts.repository.ProductRepository;
@@ -36,45 +36,33 @@ public class ProductService {
             BigDecimal minPrice,
             BigDecimal maxPrice,
             int page,
-            int size
-    ) {
+            int size) {
         Pageable pageable = PageRequest.of(page, size);
 
         Specification<Product> spec = Specification.where(null);
 
         if (keyword != null && !keyword.isBlank()) {
             String like = "%" + keyword.toLowerCase() + "%";
-            spec = spec.and((root, query, cb) ->
-                    cb.or(
-                            cb.like(cb.lower(root.get("name")), like),
-                            cb.like(cb.lower(root.get("description")), like),
-                            cb.like(cb.lower(root.get("sku")), like)
-                    )
-            );
+            spec = spec.and((root, query, cb) -> cb.or(
+                    cb.like(cb.lower(root.get("name")), like),
+                    cb.like(cb.lower(root.get("description")), like),
+                    cb.like(cb.lower(root.get("sku")), like)));
         }
 
         if (brandId != null) {
-            spec = spec.and((root, query, cb) ->
-                    cb.equal(root.get("brand").get("id"), brandId)
-            );
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("brand").get("id"), brandId));
         }
 
         if (categoryId != null) {
-            spec = spec.and((root, query, cb) ->
-                    cb.equal(root.get("category").get("id"), categoryId)
-            );
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("category").get("id"), categoryId));
         }
 
         if (minPrice != null) {
-            spec = spec.and((root, query, cb) ->
-                    cb.greaterThanOrEqualTo(root.get("price"), minPrice)
-            );
+            spec = spec.and((root, query, cb) -> cb.greaterThanOrEqualTo(root.get("price"), minPrice));
         }
 
         if (maxPrice != null) {
-            spec = spec.and((root, query, cb) ->
-                    cb.lessThanOrEqualTo(root.get("price"), maxPrice)
-            );
+            spec = spec.and((root, query, cb) -> cb.lessThanOrEqualTo(root.get("price"), maxPrice));
         }
 
         spec = spec.and((root, query, cb) -> cb.isTrue(root.get("active")));
@@ -100,8 +88,7 @@ public class ProductService {
             Integer stockQuantity,
             Boolean active,
             String mainImageUrl,
-            List<String> imageUrls
-    ) {
+            List<String> imageUrls) {
         Brand brand = null;
         if (brandId != null) {
             brand = brandRepository.findById(brandId)
@@ -154,18 +141,24 @@ public class ProductService {
             Integer stockQuantity,
             Boolean active,
             String mainImageUrl,
-            List<String> imageUrls
-    ) {
+            List<String> imageUrls) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Product not found"));
 
-        if (name != null) product.setName(name);
-        if (description != null) product.setDescription(description);
-        if (price != null) product.setPrice(price);
-        if (originalPrice != null) product.setOriginalPrice(originalPrice);
-        if (stockQuantity != null) product.setStockQuantity(stockQuantity);
-        if (active != null) product.setActive(active);
-        if (mainImageUrl != null) product.setMainImageUrl(mainImageUrl);
+        if (name != null)
+            product.setName(name);
+        if (description != null)
+            product.setDescription(description);
+        if (price != null)
+            product.setPrice(price);
+        if (originalPrice != null)
+            product.setOriginalPrice(originalPrice);
+        if (stockQuantity != null)
+            product.setStockQuantity(stockQuantity);
+        if (active != null)
+            product.setActive(active);
+        if (mainImageUrl != null)
+            product.setMainImageUrl(mainImageUrl);
 
         if (brandId != null) {
             Brand brand = brandRepository.findById(brandId)
@@ -220,8 +213,6 @@ public class ProductService {
                 product.getStockQuantity(),
                 product.getActive(),
                 product.getMainImageUrl(),
-                imageUrls
-        );
+                imageUrls);
     }
 }
-

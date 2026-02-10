@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SmartpartsBackendApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SmartpartsBackendApplication.class, args);
+        SpringApplication app = new SpringApplication(SmartpartsBackendApplication.class);
+        app.addInitializers(new vn.smartparts.config.DotenvApplicationInitializer());
+        app.run(args);
     }
 }
-
